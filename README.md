@@ -8,7 +8,7 @@ A [Buildkite plugin](https://buildkite.com/docs/plugins) to retrieve the digest 
 steps:
   - label: "Get image digest"
     plugins:
-      - image-digest#v1.0.0:
+      - equinixmetal-buildkite/image-digest#v1.0.0:
           image: "alpine:latest"
 ```
 
@@ -44,7 +44,3 @@ steps:
 ## Requirements
 
 * Docker must be installed and available in the path
-
-## License
-
-MIT (see [LICENSE](LICENSE))

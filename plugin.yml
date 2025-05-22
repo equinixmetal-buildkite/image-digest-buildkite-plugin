@@ -1,6 +1,7 @@
-name: image-digest
+---
+name: Image Digest
 description: A Buildkite plugin to retrieve the digest of a specified image
-author: https://github.com/buildkite
+author: https://github.com/equinixmetal-buildkite
 requirements:
   - docker
 configuration:
