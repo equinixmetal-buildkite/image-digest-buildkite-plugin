@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+
+# Get the image name from the plugin configuration
+IMAGE="${BUILDKITE_PLUGIN_IMAGE_DIGEST_IMAGE}"
+
+echo "~~~ :docker: Retrieving digest for image: ${IMAGE}"
+
+# Pull the image to make sure we have the latest version
+echo "Pulling image..."
+docker pull "${IMAGE}"
+
+# Get the digest of the image
+DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "${IMAGE}" | cut -d'@' -f2)
+
+if [[ -z "${DIGEST}" ]]; then
+  echo "Error: Failed to retrieve digest for image ${IMAGE}"
+  exit 1
+fi
+
+echo "Image digest: ${DIGEST}"
+
+# Export the digest as a Buildkite meta-data and environment variable
+buildkite-agent meta-data set "image-digest" "${DIGEST}"
+export BUILDKITE_PLUGIN_IMAGE_DIGEST_RESULT="${DIGEST}"
+echo "Digest has been stored in BUILDKITE_PLUGIN_IMAGE_DIGEST_RESULT environment variable"
+echo "Digest has been stored as buildkite meta-data with key 'image-digest'"
